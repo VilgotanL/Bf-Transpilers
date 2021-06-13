@@ -1,0 +1,19 @@
+#comment
+#this uses infinite integers and goto
+
+inc %x
+dec %x
+set %x x(no adress)
+right x(no adress)
+left x(no adress)
+
+@label:
+
+jmp @label
+jnz @label
+jz @label
+
+out %x
+in %x
+print "c style string"
+
