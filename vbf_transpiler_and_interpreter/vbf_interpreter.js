@@ -105,7 +105,7 @@ async function runVbf(code, input) {
             await sleep(100);
         }
         iters++;
-        if(iters > 10000) {
+        if(iters > 2000) {
             iters = 0;
             await sleep(0);
         }

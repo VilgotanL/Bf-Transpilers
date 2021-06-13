@@ -24,11 +24,13 @@ function sleep(ms) {
 
 
 runBtn.addEventListener("click", async function() {
+    runBtn.disabled = true;
     outputEl.innerText = "";
 
     let code = codeEl.value;
     let input = inputBox.value;
     await runVbf(code, input);
+    runBtn.disabled = false;
 });
 transpileBtn.addEventListener("click", async function() {
     outputEl.innerText = "";
@@ -64,7 +66,17 @@ codeEl.value = `#this is vbf, my version of brainf***
 DEBUG
 
 #click run to test the program, transpile to generate bf code
+#refresh the page to stop the program, i haven't implemented a stop button yet
 #note: DEBUG doesn't transpile to bf
 #enter input in the box above the code area
 #you can also run the program in slow mode,
-#which shows the program pointer (current instruction)`;
+#which shows the program pointer (current instruction)
+
+#here is an infinite counter program i made:
+->+>>++[-<+]-[>>>-[+>>>-]++[-<<
+++++++++++++++++++++++++++++++++++++++++++++++++.
+------------------------------------------------
+<+]->---------(----------)++++++++++(>+<)>[-
+>>---------(----------)++++++++++(>+<)>
+]<<+!(-!(->>>+<<<)+)->+[-<+]->>++++++++++.[-]<<]
+`;
