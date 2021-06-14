@@ -34,17 +34,20 @@ function beforeParentheses(code, i, open, close) {
 }
 
 async function runVbf(code, input) {
+    //remove comments
+    let lines = code.split("\n");
+    for(let i=0; i<lines.length; i++) {
+        let start = lines[i].split("#")[0].length;
+        lines[i] = lines[i].substring(0, start) + " ".repeat(lines[i].length - start);
+    }
+    code = lines.join("\n");
+
     let mem = [0];
     let p = 0;
     let iters = 0;
 
     for(let i=0; i<code.length; i++) {
         if(code[i].trim() === "") continue; //whitespace
-        if(code[i] === "#") { //comment
-            while(code[i] !== "\n" && i < code.length) i++;
-            i--;
-            continue;
-        }
         
 
         let prevI = i;
@@ -88,7 +91,7 @@ async function runVbf(code, input) {
             if(mem[p] !== 0) {
                 i = beforeParentheses(code, i, "[", "]");
             }
-        } else if(code.substring(i).startsWith("DEBUG")) {
+        } else if(code.substring(i).startsWith("DEBUG") && debug) {
             output("\nMEM: " + mem.join(" ")+"\n");
             let strings = mem.join(" ").split(" ");
             strings.splice(p, 0, "#");
@@ -102,6 +105,16 @@ async function runVbf(code, input) {
         if(slow) {
             highlightCharIndex = prevI;
             updateEditor();
+
+            debugStr = ("MEM: " + mem.join(" ")+"\n");
+            let strings = mem.join(" ").split(" ");
+            strings.splice(p, 0, "#");
+            strings = strings.join(" ");
+            let n = "MEM: ".length + strings.indexOf("#");
+            debugStr += (" ".repeat(n) + "^" + "\n");
+
+            output("");
+
             await sleep(100);
         }
         iters++;

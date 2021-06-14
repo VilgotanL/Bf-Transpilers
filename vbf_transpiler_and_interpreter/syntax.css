@@ -6,6 +6,9 @@
 .code_pointer_span {
     background-color: lawngreen;
 }
+.debug_str_span {
+    color: blue;
+}
 .debug_span {
     color: black;
 }

@@ -7,12 +7,20 @@ const inputBox = document.getElementById("input_box");
 let slow = false;
 let debug = true;
 let highlightCharIndex = -1;
+let outputStr = "";
+let debugStr = "";
 
 function output(str) {
-    outputEl.innerText += str;
+    outputStr += str;
+    if(debug) {
+        outputEl.innerHTML = '<span class="debug_str_span">' + escapeHtml(debugStr) + '</span>' + escapeHtml(outputStr);
+    } else {
+        outputEl.innerText = outputStr;
+    }
 }
 function err(str) {
     outputEl.innerHTML += '<span class="error_span">\nError: ' + escapeHtml(str) + '</span>';
+    runBtn.disabled = false;
     throw new Error("Error: " + str);
 }
 function assert(bool, str) { //assume bool is true, otherwise error
@@ -26,6 +34,8 @@ function sleep(ms) {
 runBtn.addEventListener("click", async function() {
     runBtn.disabled = true;
     outputEl.innerText = "";
+    outputStr = "";
+    debugStr = "";
 
     let code = codeEl.value;
     let input = inputBox.value;
@@ -34,6 +44,8 @@ runBtn.addEventListener("click", async function() {
 });
 transpileBtn.addEventListener("click", async function() {
     outputEl.innerText = "";
+    outputStr = "";
+    debugStr = "";
 
     let code = codeEl.value;
     let transpiled = transpile(code);
