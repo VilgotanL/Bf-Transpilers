@@ -126,3 +126,63 @@ async function runVbf(code, input) {
     highlightCharIndex = -1;
     updateEditor();
 }
+
+function minifyVbf(code) {
+    let lines = code.split("\n");
+    for(let i=0; i<lines.length; i++) { //remove comments
+        lines[i] = lines[i].split("#")[0];
+    }
+    code = lines.join("\n");
+
+    let newCode = "";
+    for(let i=0; i<code.length; i++) {
+        if("+-<>".includes(code[i])) {
+            let last = newCode[newCode.length-1];
+
+            newCode += code[i];
+
+            if(code[i] === "+" && last === "-") {
+                newCode = newCode.slice(0, -2);
+            } else if(code[i] === "-" && last === "+") {
+                newCode = newCode.slice(0, -2);
+            } else if(code[i] === "<" && last === ">") {
+                newCode = newCode.slice(0, -2);
+            } else if(code[i] === ">" && last === "<") {
+                newCode = newCode.slice(0, -2);
+            }
+        } else if(",.[]{}".includes(code[i])) {
+            newCode += code[i];
+        } else if(code[i] === "!" && code[i+1] === "(") {
+            newCode += "!(";
+            i++; //skip once
+        } else if(code[i] === "(" || code[i] === ")") {
+            newCode += code[i];
+        }
+    }
+
+    //prettify, account for !(
+    let prettified = "";
+    const width = 100;
+    let curr = 0;
+    for(let i=0; i<newCode.length; i++) {
+        if(curr >= 100) {
+            curr = 0;
+            prettified += "\n";
+        }
+        if("+-><,.[](){}".includes(newCode[i])) {
+            prettified += newCode[i];
+        } else if(newCode[i] === "!" && newCode[i+1] === "(") {
+            if(curr >= 99) {
+                curr = 0;
+                prettified += "\n";
+            }
+            prettified += "!(";
+            curr++;
+            i++;
+        }
+
+        curr++;
+    }
+
+    return prettified;
+}

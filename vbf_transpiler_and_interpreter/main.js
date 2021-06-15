@@ -1,5 +1,6 @@
 const runBtn = document.getElementById("run_btn");
 const transpileBtn = document.getElementById("transpile_btn");
+const minifyBtn = document.getElementById("minify_btn");
 const slowCheckbox = document.getElementById("slow_checkbox");
 const debugCheckbox = document.getElementById("debug_checkbox");
 const inputBox = document.getElementById("input_box");
@@ -51,6 +52,16 @@ transpileBtn.addEventListener("click", async function() {
     let transpiled = transpile(code);
 
     output(transpiled);
+});
+minifyBtn.addEventListener("click", async function() {
+    outputEl.innerText = "";
+    outputStr = "";
+    debugStr = "";
+
+    let code = codeEl.value;
+    let minified = minifyVbf(code);
+
+    output(minified);
 });
 
 slowCheckbox.addEventListener("change", function() {
