@@ -1,0 +1,8 @@
+TRANSPILE FROM OPTIONS:
+* cell size
+* unsigned cells
+* wrapping true/false
+* input: zero on eof, no change on eof, -1 on eof
+
+transpiles to non-wrapping 256 bit bf
+non-wrapping works with both wrapping and non-wrapping

@@ -1,0 +1,30 @@
+.error_span {
+    color: red;
+}
+.code_ptr_span {
+    background-color: lawngreen;
+}
+
+.string_span {
+    color: forestgreen;
+}
+
+.number_span {
+    color: dodgerblue;
+}
+
+.keyword_span {
+    color: blue;
+}
+
+.identifier_span {
+    color: black;
+}
+
+.operator_span {
+    color: darkslategray;
+}
+
+.comment_span {
+    color: #00a900;
+}

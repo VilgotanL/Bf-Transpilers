@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<!-- yas -->
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>BFPL Transpiler and Interpreter</title>
+
+        <link rel="stylesheet" type="text/css" href="style.css">
+        <script defer src="editor.js"></script>
+        
+        <link rel="stylesheet" type="text/css" href="syntax.css">
+        <script defer src="lexer.js"></script>
+        <script defer src="parser.js"></script>
+        <script defer src="highlighting.js"></script>
+        <script defer src="transpiler.js"></script>
+        <script defer src="interpreter.js"></script>
+        <script defer src="main.js"></script>
+	</head>
+    <body class="light_theme">
+        <h1>BFPL Transpiler and Interpreter</h1> <p>by VilgotanL</p> <a href="https://github.com/VilgotanL">Github</a>
+        <div class="options">
+            <p>Slow:</p> <input id="slow_checkbox" type="checkbox" checked>
+            <p>Input:</p> <input id="input_box" type="text" spellcheck="false" value="Text Here">
+        </div>
+        <div id="code_wrapper" class="code_wrapper">
+            <pre id="code_syntax" class="code_syntax"></pre>
+            <textarea id="code" class="code" contenteditable="true" spellcheck="false">code/input</textarea>
+        </div>
+        <div class="buttons">
+            <button id="run_btn">Run</button>
+            <button id="transpile_btn">Transpile to VBF</button>
+            <p id="debug_p">Debug P</p>
+        </div>
+        <pre id="output" class="output" spellcheck="false">output here</pre>
+    </body>
+</html>

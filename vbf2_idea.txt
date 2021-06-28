@@ -1,0 +1,26 @@
+#infinite unbounded integers, including negative
+
++n #increment current cell, optionally n times
+-n #decrement current cell
+>n #move pointer right
+<n #move pointer left
+=n #set current cell to n
+, #ascii input
+. #ascii output
+."string" #output c-style string
+$ #output as integer (base 10)
+
+:label1 #define label1 at current cell
+;label1 #move ptr to label1
+;0 #go to zeroeth cell
+
+#control-flow
+n[ #while not zero (optional while not n)
+]
+n{ #while zero (optional while n)
+}
+n( #if 0 (optional if n)
+)
+n!( #if not 0 (optional if not n)
+)
+
