@@ -1,0 +1,37 @@
+#Tapef**k?
+#integers are zero or positive, not negative to make it easier
+
+^ #go up one level (undefined behaviour if already?)
+v #go down one level (undefined behaviour if already?)
+#when you go down one level you start at the beggining of that tape
+#when you go up one level you are at the cell you went up from
+
+#ON OUTER LEVEL:
++ #increment as integer
+- #decrement as integer
+> #move one outer cell right
+< #move one outer cell left
+, #input string until newline or eof and set rest to zero, not including newline
+. #output string until eof
+_ #set to zero
+; #input as base 10 integer, set zero before
+: #output as base 10 integer, undefined behaviour if not base 10 integer (using + and -)
+[] #while base 10 integer not zero
+{} #while integer is zeroo
+() #if integer is zero
+!() #if integer not zero
+"c-style string" #PRINT
+
+#ON INNER LEVEL, 8-bit wrapping:
++ #increment cell
+- #decrement cell
+> #move right
+< #move left (undefined behaviour if at 0th cell
+, #input ascii char (0 on eof)
+. #output ascii char
+_ #set to zero
+[] #while not zero
+{} #while zero
+() #if zero
+!() #if not zero
+"c-style string" #PRINT, \(65) for ascii directly

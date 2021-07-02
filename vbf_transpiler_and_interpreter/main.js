@@ -39,7 +39,7 @@ runBtn.addEventListener("click", async function() {
     debugStr = "";
 
     let code = codeEl.value;
-    let input = inputBox.value;
+    let input = escapeInput(inputBox.value);
     await runVbf(code, input);
     runBtn.disabled = false;
 });
@@ -103,3 +103,26 @@ DEBUG
 >>---------(----------)++++++++++(>+<)>
 ]<<+!(-!(->>>+<<<)+)->+[-<+]->>++++++++++.[-]<<]
 `;
+
+
+function escapeInput(str) {
+    let newStr = "";
+    for(let i=0; i<str.length; i++) {
+        if(str[i] === "\\") {
+            let c = str[i+1];
+            if(!c) newStr += "";
+            else if(c === "n") newStr += "\n";
+            else if(c === "t") newStr += "\t";
+            else if(c === "r") newStr += "\r";
+            else if(c === "\\") newStr += "\\";
+            else if(c === "\"") newStr += "\"";
+            else if(c === "\'") newStr += "\'";
+            else if(c === "0") newStr += "\0";
+            else newStr += c;
+            i++;
+        } else {
+            newStr += str[i];
+        }
+    }
+    return newStr;
+}
