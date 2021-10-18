@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<!-- yas -->
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Doc Example</title>
+
+        <link rel="stylesheet" type="text/css" href="doc_style.css">
+	</head>
+    <body class="light_theme">
+        <h1>VBI Docs</h1>
+        <p>
+            VBI is a <a href="https://esolangs.org/wiki/Brainfuck">brainfuck</a> extension including better control-flow (while, if) and insert/remove inbetween cells.<br>
+            NOTE: VBI has different control-flow than VBF, for example, !() and () are switched.
+        </p>
+        <p>
+            Extra commands:
+        </p>
+        <table>
+            <tr>
+                <th>Instruction</th>
+                <th>Description</th>
+            </tr>
+            <tr>
+                <td style="font-family: monospace;">![code]</td>
+                <td>While zero</td>
+            </tr>
+            <tr>
+                <td style="font-family: monospace;">(code)</td>
+                <td>If not zero</td>
+            </tr>
+            <tr>
+                <td style="font-family: monospace;">!(code)</td>
+                <td>If zero</td>
+            </tr>
+            <tr>
+                <td style="font-family: monospace;">}</td>
+                <td>Insert a cell to the right of this cell, initialized with a value of 0</td>
+            </tr>
+            <tr>
+                <td style="font-family: monospace;">{</td>
+                <td>Remove a cell to the right of this cell</td>
+            </tr>
+        </table>
+
+        <h1 style="font-size: 1.5rem; margin-top: 16px">Patterns</h1>
+        <ul>
+            <li>NOT: <code style="display: inline-block; border">}!(&gt;+&lt;)&gt;[-&lt;+&gt;]&lt;{</code></li>
+            <li>something: <code style="display: inline-block;">insert VBI code here 2</code></li>
+        </ul>
+
+        <h1 style="font-size: 1.5rem; margin-top: 16px">Transpilation to brainfuck</h1>
+        <table>
+            <tr>
+                <th>VBI</th>
+                <th>Brainfuck</th>
+            </tr>
+            <tr>
+                <td style="font-family: monospace;">></td>
+                <td style="font-family: monospace;">>[-]+></td>
+            </tr>
+            <tr>
+                <td style="font-family: monospace;"><</td>
+                <td style="font-family: monospace;"><<</td>
+            </tr>
+            <tr>
+                <td style="font-family: monospace;">}</td>
+                <td style="font-family: monospace;">&gt;[-]&gt;&gt;[&gt;&gt;]+[&lt;[-&gt;&gt;+&lt;&lt;]&lt;]+&lt;</td>
+            </tr>
+        </table>
+    </body>
+</html>

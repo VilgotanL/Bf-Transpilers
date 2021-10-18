@@ -1,0 +1,14 @@
+* optional
+
+first iteration:
+
+Add(n, *offset)
+Sub(n, *offset)
+Set(n, *offset)
+Right(n)
+Left(n)
+Input(*offset)
+Output(*offset)
+WhileNz(*offset)
+EndWhileNz()
+
