@@ -1,5 +1,0 @@
-tape x;
-byte x;
-int x;
-unary_int x;
-
