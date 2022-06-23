@@ -1,0 +1,8 @@
+bf instructions are the same´
+JUMP INSTRUCTIONS CANNOT BE USED INSIDE []{}()!()
+
+@a: #label
+
+jeq 0 @a
+jneq 0 @a
+jmp @a

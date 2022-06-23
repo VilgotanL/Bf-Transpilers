@@ -1,0 +1,30 @@
+all vbf instructions
+and these
+
+v #go down level (into cells, cells are tapes)
+^ #go up level
+@a: #label
+
+#bf instructions at outer level:
++ and - #decrement first cell of tape
+> and < #move between tapes
+. #output tapes as ascii until eof, not outputting eof
+, #input to tape until newline or eof
+#[]{}()!() dont work at outer level
+
+jz @a
+jnz @a
+jeq 42 @a
+jneq 54 @a
+jmp @a
+
+int_init #macro for initializing an infinite integer, assumes at top-level and not already int
+int_inc
+int_dec
+int_setz
+int_out #output integer
+int_in #input integer, ends with newline OR EOF in input
+int_jz @a
+int_jnz @a
+
+print "c-style string\n"

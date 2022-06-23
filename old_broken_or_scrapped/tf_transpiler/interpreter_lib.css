@@ -126,6 +126,7 @@ a {
     padding: 3px;
     border: none;
     font-size: 1.12rem;
+    user-select: none;
     overflow: auto;
     resize: none;
 

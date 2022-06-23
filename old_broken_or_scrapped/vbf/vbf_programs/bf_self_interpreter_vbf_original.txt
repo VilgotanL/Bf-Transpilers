@@ -1,0 +1,323 @@
+#by VilgotanL
+#2021-06-14
+#info: brainf*** interpreter in VBF, assumes zero or no-change on eof, errors on pointer too much left, and errors on unbalanced [] when they dont act as no-op
+#https://github.com/VilgotanL
+
+# exit_0 255 mem memptr(1) code codeptr(1) loop_counter/other
+# at end of main loop: if exit_0 is nonzero, exit main loop
+
+> #make space for exit_0
+- #anchor cell
+#READ CODE UNTIL ! or eof
+>>> #go to first code char
+,---------------------------------
+[+++++++++++++++++++++++++++++++++>>>>>,(+++++++++++++++++++++++++++++++++)---------------------------------]
+#now at !, set to 0 (eof)
+[-]
+#go to anchor cell
+>>+[-<<<<<+]- #go to other and loop left until 255
+
+#INIT CODEPTR
+>>>>+<<<<
+
+#INIT MEMPTR
+>>+<<
+
+#DEBUG
+
+#MAIN LOOP
+[
+#go to codeptr
+>>>>-[+>>>>>-]+
+#go to current code cell
+<
+
+#CHECK IF '+' (43)
+
+-------------------------------------------( #+
+#go to anchor cell
+<<<+[-<<<<<+]-
+#go to memory ptr, then mem cell
+>>-[+>>>>>-]+ <
++ #increment memory cell
+#go back to anchor cell
+<+[-<<<<<+]-
+#go to codeptr, then code cell
+>>>>-[+>>>>>-]+ <
+)+++++++++++++++++++++++++++++++++++++++++++
+
+
+#CHECK IF '-' (45)
+
+---------------------------------------------( #-
+#go to anchor cell
+<<<+[-<<<<<+]-
+#go to memory ptr, then mem cell
+>>-[+>>>>>-]+ <
+- #decrement memory cell
+#go back to anchor cell
+<+[-<<<<<+]-
+#go to codeptr, then code cell
+>>>>-[+>>>>>-]+ <
+)+++++++++++++++++++++++++++++++++++++++++++++
+
+
+#CHECK IF '.' (46)
+
+----------------------------------------------( #.
+#go to anchor cell
+<<<+[-<<<<<+]-
+#go to memory ptr, then mem cell
+>>-[+>>>>>-]+ <
+. #print memory cell
+#go back to anchor cell
+<+[-<<<<<+]-
+#go to codeptr, then code cell
+>>>>-[+>>>>>-]+ <
+)++++++++++++++++++++++++++++++++++++++++++++++
+
+
+#CHECK IF ',' (44)
+
+--------------------------------------------( #,
+#go to anchor cell
+<<<+[-<<<<<+]-
+#go to memory ptr, then mem cell
+>>-[+>>>>>-]+ <
+[-], #input to memory cell, set to zero to allow for no-change-on-eof
+#go back to anchor cell
+<+[-<<<<<+]-
+#go to codeptr, then code cell
+>>>>-[+>>>>>-]+ <
+)++++++++++++++++++++++++++++++++++++++++++++
+
+
+#CHECK IF '>' (62)
+
+--------------------------------------------------------------( #>
+#go to anchor cell
+<<<+[-<<<<<+]-
+#go to memory ptr, then mem cell
+>>-[+>>>>>-]+ <
+> ->>>>>+<<<<< < #go to memptr, move right, then go back
+#go back to anchor cell
+<+[-<<<<<+]-
+#go to codeptr, then code cell
+>>>>-[+>>>>>-]+ <
+)++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+#CHECK IF '<' (60)
+
+------------------------------------------------------------( #<
+#go to anchor cell
+<<<+[-<<<<<+]-
+#go to memory ptr, then mem cell
+>>-[+>>>>>-]+ <
+<+ ( -> #IF AT START
+<<+>> #set exit_0 to 1 (indicate to exit)
+#go to other, and print err
+>>>>
+#PRINT ERR
+++++++++++.+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++.+++++++++++++..------------------------.--------------------------.++++++++++++++++++++++++++++++++++++++++++++++++.++++.--.[-]++++++++++++++++++++++++++++++++.+++++++++++++++++++++++++++++++++++++++++++++++.++++++.-.[-]++++++++++++++++++++++++++++++++.+++++++++++++++++++++++++++++++++++++++++++++++.---------.[-]++++++++++++++++++++++++++++++++.++++++++++++++++++++++++++++++++++.+++++++++++++.++++++.-------.----------.+++++++++++++++.[-]
+<<<<
+<+ ) ->
+<+ !( -> #IF NOT AT START
+> -<<<<<+>>>>> < #go to memptr, move left, then go back
+<+ ) ->
+#go back to anchor cell
+<+[-<<<<<+]-
+#go to codeptr, then code cell
+>>>>-[+>>>>>-]+ <
+)++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+#CHECK IF '[' (91)
+
+-------------------------------------------------------------------------------------------( #[
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+#DEBUG
+#go to anchor cell
+<<<+[-<<<<<+]-
+#go to memory ptr, then mem cell
+>>-[+>>>>>-]+ <
+#now at mem cell
+#DEBUG
+( #IF MEM CELL IS 0
+#set other unary counter to one
+<+[-<<<<<+]- #go to anchor cell
+>>>>>+<<<<< #set loop_counter to one
+#DEBUG
+#WHILE loop_counter is not zero (first unary digit is not zero)
+>>>>>[
+#now at first loop_counter
+
+#DID: move codeptr right
+<-[+>>>>>-]+ #go to codeptr
+->>>>>+ #move right, now at codeptr after moved right
+#TODO: if '[' (91), increment loop_counter
+< -------------------------------------------------------------------------------------------(
+#go to anchor cell, currently at code
+<<< +[-<<<<<+]-
+#go to first loop_counter
+>>>>>
+#increment loop_counter, by going to after the last unary digit and setting it to 1
+[>>>>>] +
+#go back to anchor cell, currently at loop_counter
+<<<<< +[-<<<<<+]-
+#go back to code at codeptr
+>>>> -[+>>>>>-]+ <
+)+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ >
+
+#TODO: if ']' (93), decrement loop_counter
+< ---------------------------------------------------------------------------------------------(
+#go to anchor cell, currently at code
+<<< +[-<<<<<+]-
+#go to first loop_counter
+>>>>>
+#decrement loop_counter, by going to the last unary digit and setting it to 0
+[>>>>>] <<<<<-
+#go back to anchor cell, currently at loop_counter
+<<<<< +[-<<<<<+]-
+#go back to code at codeptr
+>>>> -[+>>>>>-]+ <
+)+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ >
+
+#IF eof, print error and set exit_0 to 1 regardless of what it is
+#also set first digit of loop_counter to zero to exit this loop, we dont need to set all digits to 0 because this is the last instruction
+< (
+#go to loop_counter, set to zero, print err
+>>[-] ++++++++++.+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++.+++++++++++++..------------------------.--------------------------.+++++++++++++++++++++++++++++++++++++++++++++.----.++++++++++..----------.+++++.-------.[-]++++++++++++++++++++++++++++++++.+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++.[-]
+<< #go back to code cell
+#set exit_0 to 1
+#go to anchor cell, currently at code
+<<< +[-<<<<<+]-
+#set exit_0 to 1
+<[-]+>
+#go to first loop_counter, set to zero, go back to anchor cell
+>>>>>[-]<<<<<
+#go back to code cell, currently at anchor cell
+>>>> -[+>>>>>-]+ <
+) >
+
+#DID: go to anchor cell, then first loop_counter digit, currently at codeptr
+<<<<+[-<<<<<+]- >>>>>
+]<<<<<
+
+#go to memory ptr, then mem cell, currently at anchor cell
+>>-[+>>>>>-]+ <
+
+) #END IF 0
+
+#go back to anchor cell
+<+[-<<<<<+]-
+#go to codeptr, then code cell
+>>>>-[+>>>>>-]+ <
+-------------------------------------------------------------------------------------------
+)+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+#CHECK IF ']' (93)
+
+---------------------------------------------------------------------------------------------( #]
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+#DEBUG
+#go to anchor cell
+<<<+[-<<<<<+]-
+#go to memory ptr, then mem cell
+>>-[+>>>>>-]+ <
+#now at mem cell
+#DEBUG
+!( #IF MEM CELL IS NOT 0
+#set other unary counter to one
+<+[-<<<<<+]- #go to anchor cell
+>>>>>+<<<<< #set loop_counter to one
+#DEBUG
+#WHILE loop_counter is not zero (first unary digit is not zero)
+>>>>>[
+#now at first loop_counter
+
+#DID: move codeptr left
+<-[+>>>>>-]+ #go to codeptr
+-<<<<<+ #move left, now at codeptr after moved left
+#TODO: if ']' (93), increment loop_counter
+< ---------------------------------------------------------------------------------------------(
+#go to anchor cell, currently at code
+<<< +[-<<<<<+]-
+#go to first loop_counter
+>>>>>
+#increment loop_counter, by going to after the last unary digit and setting it to 1
+[>>>>>] +
+#go back to anchor cell, currently at loop_counter
+<<<<< +[-<<<<<+]-
+#go back to code at codeptr
+>>>> -[+>>>>>-]+ <
+)+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ >
+
+#TODO: if '[' (91), decrement loop_counter
+< -------------------------------------------------------------------------------------------(
+#go to anchor cell, currently at code
+<<< +[-<<<<<+]-
+#go to first loop_counter
+>>>>>
+#decrement loop_counter, by going to the last unary digit and setting it to 0
+[>>>>>] <<<<<-
+#go back to anchor cell, currently at loop_counter
+<<<<< +[-<<<<<+]-
+#go back to code at codeptr
+>>>> -[+>>>>>-]+ <
+)+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ >
+
+#IF eof, print error and set exit_0 to 1 regardless of what it is
+#also set first digit of loop_counter to zero to exit this loop, we dont need to set all digits to 0 because this is the last instruction
+< <<<+(->>>
+#go to loop_counter, set to zero, print err
+>>[-] ++++++++++.+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++.+++++++++++++..------------------------.--------------------------.+++++++++++++++++++++++++++++++++++++++++++++.----.++++++++++..----------.+++++.-------.[-]++++++++++++++++++++++++++++++++.+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++.[-]
+<< #go back to code cell
+#set exit_0 to 1
+#go to anchor cell, currently at code
+<<< +[-<<<<<+]-
+#set exit_0 to 1
+<[-]+>
+#go to first loop_counter, set to zero, go back to anchor cell
+>>>>>[-]<<<<<
+#go back to code cell, currently at anchor cell
+>>>> -[+>>>>>-]+ <
+<<<+)->>> >
+
+#TODO: go to anchor cell, then first loop_counter digit, currently at codeptr
+<<<<+[-<<<<<+]- >>>>>
+]<<<<<
+
+#go to memory ptr, then mem cell, currently at anchor cell
+>>-[+>>>>>-]+ <
+
+) #END IF NOT 0
+
+#go back to anchor cell
+<+[-<<<<<+]-
+#go to codeptr, then code cell
+>>>>-[+>>>>>-]+ <
+---------------------------------------------------------------------------------------------
+)+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+#DEBUG
+
+#MOVE CODEPTR RIGHT, currently at code cell at codeptr
+>->>>>>+<
+
+#IF CODE IS 0, set exit_0 to 1 regardless of what it is, currently at code
+( #if 0
+#go back to anchor cell, currently at code cell
+<<<+[-<<<<<+]-
+<[-]+> #set exit_0 to 1
+#go back to code, currently at anchor cell
+>>>> -[+>>>>>-]+ <
+)
+
+#go back to anchor cell, currently at code cell
+<<<+[-<<<<<+]-
+#if exit_0 is nonzero, set anchor cell to zero and exit loop
+<!(>+<)>
+]
+#DEBUG

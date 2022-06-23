@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<!-- yas -->
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Cell Doubling Translation Table</title>
+
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/VilgotanL/v-interpreter-lib/v1/doc_style.css">
+	</head>
+    <body class="light_theme">
+        <h1>Cell Doubling Translation Table <a href="index.html">Back to transpiler</a></h1>
+        <p>
+            Here is a translation table i made, i used a version of <a href="https://www.iwriteiam.nl/Ha_vs_bf_inter.html">NYYRIKKI's if statement</a>.
+        </p>
+        <table style="font-family: monospace;">
+            <tr>
+                <th>From</th>
+                <th>To</th>
+            </tr>
+            <tr>
+                <td>Start of program</td>
+                <td>&gt;&gt;&gt;</td>
+            </tr>
+            <tr>
+                <td>&gt;</td>
+                <td>&gt;&gt;&gt;&gt;</td>
+            </tr>
+            <tr>
+                <td>&lt;</td>
+                <td>&lt;&lt;&lt;&lt;</td>
+            </tr>
+            <tr>
+                <td>.</td>
+                <td>.</td>
+            </tr>
+            <tr>
+                <td>,</td>
+                <td>,</td>
+            </tr>
+            <tr>
+                <td>+</td>
+                <td>+&gt;+&lt;[&gt;-]&gt;[&lt;&lt;+&gt;&gt;&gt;]&lt;[-]&lt;</td>
+            </tr>
+            <tr>
+                <td>-</td>
+                <td>&gt;+&lt;[&gt;-]&gt;[&lt;&lt;-&gt;&gt;&gt;]&lt;[-]&lt;-</td>
+            </tr>
+            <tr>
+                <td>[</td>
+                <td>&lt;&lt;+&gt;[&gt;&gt;+&lt;&lt;&lt;-]&lt;[&lt;]&gt;[-]&gt;&gt;&gt;[-&lt;&lt;&lt;+&gt;&gt;&gt;]+&lt;[&lt;&lt;+&gt;&gt;&gt;-]&gt;[&gt;]&lt;[-]&lt;&lt;&lt;[[-]&gt;&gt;</td>
+            </tr>
+            <tr>
+                <td>]</td>
+                <td>&lt;&lt;+&gt;[&gt;&gt;+&lt;&lt;&lt;-]&lt;[&lt;]&gt;[-]&gt;&gt;&gt;[-&lt;&lt;&lt;+&gt;&gt;&gt;]+&lt;[&lt;&lt;+&gt;&gt;&gt;-]&gt;[&gt;]&lt;[-]&lt;&lt;&lt;]&gt;&gt;</td>
+            </tr>
+        </table>
+        <p>
+            Though, you can make the code much shorter by contracting repeating + or - sequences like this:
+        </p>
+        <p>
+            Replace N with an amount of pluses for how many times to increment/decrement, max N is 255 because otherwise it overflows to 0.
+        </p>
+        <table style="font-family: monospace;">
+            <tr>
+                <th>From</th>
+                <th>To</th>
+            </tr>
+            <tr>
+                <td>+</td>
+                <td>&lt;&lt;N[-&gt;&gt;+&gt;+&lt;[&gt;-]&gt;[&lt;&lt;+&gt;&gt;&gt;]&lt;[-]&lt;&lt;&lt;]&gt;&gt;</td>
+            </tr>
+            <tr>
+                <td>-</td>
+                <td>&lt;&lt;N[-&gt;&gt;&gt;+&lt;[&gt;-]&gt;[&lt;&lt;-&gt;&gt;&gt;]&lt;[-]&lt;-&lt;&lt;]&gt;&gt;</td>
+            </tr>
+        </table>
+        <a href="notes.txt">Notes</a>
+        <p>TODO: fix I/O</p>
+    </body>
+</html>
